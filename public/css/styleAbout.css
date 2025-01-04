@@ -1,0 +1,47 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-light: #f8f9fa;
+  }
+
+  .navbar {
+    background-color: var(--background-light);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .section-header {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+  }
+
+  .device-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    background-color: white;
+  }
+
+  .device-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .icon-primary {
+    color: var(--primary-color);
+  }
+
+  .stakeholders-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .stakeholders-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .tech-stack {
+    background-color: var(--background-light);
+    padding: 2rem;
+    border-radius: 8px;
+  }

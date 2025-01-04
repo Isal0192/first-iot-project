@@ -1,91 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Monitoring IoT</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Monitoring Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h3>Navigation</h3>
-    <a href="/about">About</a>
-    <a href="/">Keluar</a>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <!-- Header -->
-    <div class="header">
-      <h1>Web Monitoring IoT</h1>
-    </div> 
-
-    <!-- Sensor Panels -->
-    <div class="sensor-panel">
-      <div class="card">
-        <h3><i class="fas fa-thermometer-half"></i> Sensor Suhu</h3>
-        <p>Data: <span id="temperature">{{$dataTerbaru->tempratur}}</span> °C</p>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-tint"></i> Sensor Kelembapan</h3>
-        <p>Data: <span id="humidity">{{$dataTerbaru->humidity}}</span> %</p>
-      </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>IoT Dashboard</h2>
+        <div class="menu-item active"><span>📊</span> Home Dashboard</div>
+        <div class="menu-item active to-about"><span>📊</span> About Perojek</div>
+        <hr>
+        <div class="menu-item"><span>🌡</span> Temperature</div>
+        <div class="menu-item"><span>💧</span> Humidity</div>
+        <div class="menu-item"><span>🔌</span> Relays</div>
+        <div class="menu-item"><span>📋</span> Logs</div>
     </div>
 
-    <!-- Relay Switch -->
-    <div class="relay-card">
-      <h3>Saklar Relay 4 Channel</h3>
-      <button class="relay-btn channel1" onclick="toggleDevice(1)">Channel 1</button>
-      <button class="relay-btn channel2" onclick="toggleDevice(2)">Channel 2</button>
-      <button class="relay-btn channel3" onclick="toggleDevice(3)">Channel 3</button>
-      <button class="relay-btn channel4" onclick="toggleDevice(4)">Channel 4</button>
+    <!-- Main Content -->
+    <div class="content">
+        <div class="header">
+            <i class="fas fa-network-wired lg-2"><strong><h1 class="inline">&nbsp; IoT Monitoring Dashboard</h1></strong></i>
+            <div class="connection-status">conecting...</div>
+        </div>
+
+        <!-- Sensor Overview -->
+        <div class="sensor-overview">
+            <div class="overview-card">
+                <h3>Temperature</h3>
+                <div class="value" id="temp-value">--°C</div>
+            </div>
+            <div class="overview-card">
+                <h3>Humidity</h3>
+                <div class="value" id="humidity-value">--%</div>
+            </div>
+        </div>
+
+        <!-- Detailed Sensor Grid -->
+        <div class="sensor-grid">
+            <div class="sensor-box">
+                <div class="sensor-title">
+                    <span>🌡</span> Temperature Sensor
+                </div>
+                <div id="temp-details">Waiting for data...</div>
+            </div>
+
+            <div class="sensor-box">
+                <div class="sensor-title">
+                    <span>💧</span> Humidity Sensor
+                </div>
+                <div id="humidity-details">Waiting for data...</div>
+            </div>
+        </div>
+         <!-- Relay Controls -->
+         <div class="relay-controls">
+                <div class="sensor-title">
+                    <span>🔌</span> Relay Controls
+                </div>
+                <div class="relay-buttons">
+                    <button class="relay-button" data-relay="1">
+                        <span>⚡</span> Relay 1
+                    </button>
+                    <button class="relay-button" data-relay="2">
+                        <span>⚡</span> Relay 2
+                    </button>
+                    <button class="relay-button" data-relay="3">
+                        <span>⚡</span> Relay 3
+                    </button>
+                    <button class="relay-button \" data-relay="4">
+                        <span>⚡</span> Relay 4
+                    </button>
+                </div>
+            </div>
+
+        <!-- Data Log Section -->
+        <div class="data-log">
+            <i class="fas fa-project-diagram">
+                Data Log
+            </i>
+            <div class="log-table-container">
+                <table class="log-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Temperature</th>
+                            <th>Humidity</th>
+                            <th>Relay Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="log-data">
+                        <!-- Log data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    // Update current time
-    function updateTime() {
-      const timeDisplay = document.getElementById('current-time');
-      if (timeDisplay) {
-        timeDisplay.textContent = new Date().toLocaleString();
-      }
-    }
-    updateTime();
-    setInterval(updateTime, 1000);
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/scripts.js"></script>
 
-    // Fetch latest sensor data
-    function fetchSensorData() {
-      axios.get('/api/data')
-        .then(response => {
-          const { temperature, humidity } = response.data;
-          
-          document.getElementById('temperature').textContent = `${temperature} °C`;
-          document.getElementById('humidity').textContent = `${humidity} %`;
-          
-          document.getElementById('temperature-timestamp').textContent = new Date().toLocaleString();
-          document.getElementById('humidity-timestamp').textContent = new Date().toLocaleString();
-      })
-      .catch(error => {
-          console.error('Error fetching sensor data:', error);
-      });
-    }
-
-
-    // Fungsi untuk mengubah status saklar (hanya simulasi)
-    function toggleDevice(channel) {
-      alert('Toggling Channel ' + channel);
-      // Simulasi mengubah baground sesuai status saklar
-      coich = document.querySelector('.channel' + channel);
-      
-    }
-
-
-  </script>
 </body>
 </html>

@@ -25,12 +25,18 @@
     </div>
   </div>
   <script>
+    
+    // skip
+    window.onload = function () {
+      window.location.href = '/home';
+    };
+
     document.getElementById('loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
+    
     if (username === 'faisal' && password === '1234') {
       alert('Login berhasil!');
       window.location.href = '/home';
@@ -38,7 +44,6 @@
       alert('Username atau password salah!');
     }
   });
-
   </script>
 </body>
 </html>

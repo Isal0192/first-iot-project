@@ -8,13 +8,16 @@ use App\Models\dataModel;
 
 class DataController extends Controller
 {
-    // Semua data sensor
     public function index()
     {
         $dataTerbaru = dataModel::latest()->first();
         return response()->json($dataTerbaru);
     }
 
+    public function allData(){
+        $data = dataModel::all();
+        return response()->json($data);
+    }
     /**
      * Menyimpan data sensor
      * @param Request $request
