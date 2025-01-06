@@ -78,12 +78,15 @@
             </div>
 
         <!-- Data Log Section -->
-        <div class="data-log">
-            <i class="fas fa-project-diagram">
+        <div class="data-log"">
+            <i class="fas fa-project-diagram" id="hidden-list">
                 Data Log
             </i>
-            <div class="log-table-container">
-                <table class="log-table">
+            <button type="button" id="log-visibel" onclick="hidden()")>
+                hillangkan
+            </button>
+            <div class="log-table-container" >
+                <table class="log-table targetHide">
                     <thead>
                         <tr>
                             <th>Timestamp</th>
@@ -99,7 +102,15 @@
             </div>
         </div>
     </div>
+    <script>
+        // FUNGSI UNTUK MENGHILANGKAN class targetHide 
 
+        function hidden() {
+            $(".targetHide").toggle();
+            $("#hidden-list").toggle();
+        }
+
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/scripts.js"></script>
 
